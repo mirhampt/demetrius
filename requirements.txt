@@ -1,0 +1,10 @@
+# 1.5 will be released before Demetrius is in use, recommend upgrading
+django >= 1.4
+celery
+django-celery
+gunicorn
+redis
+django-redis-cache
+hiredis
+django-redis-status
+
