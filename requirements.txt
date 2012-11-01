@@ -7,4 +7,6 @@ redis
 django-redis-cache
 hiredis
 django-redis-status
+riak
+pysolr
 
