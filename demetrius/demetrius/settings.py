@@ -136,8 +136,20 @@ CACHES = {
     },
 }
 
+########################################################################
+# CELERY SETTINGS
+########################################################################
 BROKER_URL = 'redis://localhost:6379/1'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/2'
+# When using django-celery, it's best to use the DB scheduler
+# so you can edit schedules in the admin
+CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
+# How long beat will sleep between schedule checks (each schedule check is a
+# database query when using DB scheduler, so be kind). We use a resolution of
+# one minute.
+CELERYBEAT_MAX_LOOP_INTERVAL = 60
+# Where to get your tasks from:
+# CELERY_IMPORTS = [] # list of modules to import
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
