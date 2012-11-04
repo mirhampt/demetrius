@@ -1,3 +1,4 @@
+docs/build/*
 vagrant/*.deb
 vagrant/*.tgz
 .vagrant
