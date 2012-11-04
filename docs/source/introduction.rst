@@ -1,13 +1,13 @@
 Concepts and Components of Demetrius
 ================================================================================
 
-ContentClasses and Validators
+ItemTypes and Validators
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-A ContentClass is any data structure that can be validated programmatically. The
+An ItemType is any data structure that can be validated programmatically. The
 function or class that performs the validation is called a Validator.
-ContentClasses and their Validators are registered with Demetrius. Demetrius
-will not store any data unless it has a defined ContentClass and passes
-validation by the Validator for that ContentClass.
+ItemTypes and their Validators are registered with Demetrius. Demetrius
+will not store any data unless it has a defined ItemType and passes
+validation by the Validator for that ItemType.
 
 The Archivist and the Stacks
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -23,7 +23,7 @@ must be mediated by the Archivist, which implements safeguards and protocols to
 ensure that each content item and its version history remains consistent.
 
 The Archivist API requires that all content items submitted for storage have an
-assigned ContentClass and must pass the Validator for that ContentClass.
+assigned ItemType and must pass the Validator for that ItemType.
 
 Indexers, The Researcher, and the Catalogue
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -44,7 +44,7 @@ Catalogue except by an Indexer.
 
 Archetypes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Within the context of Demetrius, an Archetype is any ContentClass that has an
+Within the context of Demetrius, an Archetype is any ItemType that has an
 Indexer registered for it. Having an Indexer means the content is added to the
 Catalogue as well as the Stacks and thus is available "end-to-end".
 
@@ -65,9 +65,9 @@ use either set of Archetypes in your own applications.
 Scribes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 A Scribe is a class that transforms (or *transcribes*) data structures from one
-format to another. A Scribe is registered for a specific ContentClass, and
-advertises the ability to transform items of that ContentClass into items of an
-Archetype. (Technically, a Scribe could translate from one ContentClass to
-another ContentClass that was not an Archetype, but that is a useless task in
+format to another. A Scribe is registered for a specific ItemType, and
+advertises the ability to transform items of that ItemType into items of an
+Archetype. (Technically, a Scribe could translate from one ItemType to
+another ItemType that was not an Archetype, but that is a useless task in
 the context of Demetrius.)
 
