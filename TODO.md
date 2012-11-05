@@ -16,6 +16,9 @@ Phase One: Design
 * Define the Validator API.
 * Define how the Registry works, for registering ItemType-Validator and
   Archetype-Indexer.
+* How to deal with NewsML Catalogs for controlled vocabularies? What about CVs
+  not controlled by IPTC (e.g. Medley Lolcats)?
+* Create a Solr Schema
 
 Phase Two: The Stacks
 ---------------------

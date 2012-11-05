@@ -71,3 +71,43 @@ Archetype. (Technically, a Scribe could translate from one ItemType to
 another ItemType that was not an Archetype, but that is a useless task in
 the context of Demetrius.)
 
+Scribes are implemented as Celery background tasks.
+
+Workflow: Following an Item through the system
+================================================================================
+An Item begins life somewhere outside of Alexandria, created in an off-the-shelf
+publishing tool such as Wordpress, or a purpose-built tool that you have created
+yourself. After its creation, the Item is submitted to the Archivist by some
+process of your own design (we call such a process a Curator).
+
+The Archivist receives from the Curator a request to store an Item of a
+particular ItemType. The Archivist then looks up the appropriate Validator for
+that ItemType and asks it to check the validity of the Item. If the Item passes
+the validity check, it is stored in the Stacks, and a success response code is
+returned to the Curator, along with the URL assigned to the new Item.
+
+After storing the Item, the Archivist sends an Item-Updated message to the
+Scribe.
+
+The Scribe receives the Item-Updated message and retrieves the Item from the
+Stacks (via the Archivist). The Scribe then looks up all registered
+transcription functions for the ItemType and executes them. The transcription
+functions take the Item as input, and generate as output a new rendition of the
+Item conforming to a specific Archetype. Each transcription function then stores
+its output back into the Stacks (via the Archivist), linking it to the original
+input Item.
+
+When transcription is complete, the Scribe sends an Item-Updated message to the
+Indexer for each Archetype to which the Item has been transcribed.
+
+The Indexer receives the Item-Updated message and retrieves the Item from the
+Stacks (via the Archivist). The Indexer MAY then consult one or more Analysts to
+add metadata to the Item for indexing. Finally, the Item is indexed into the
+Catalogue, where it becomes available for general consumption.
+
+API clients seeking to discover content send queries to the Researcher. The
+Researcher searches the Catalogue for Items matching the client's query.
+Depending on the nature of the query, the Researcher may fetch the requested
+Item from the Stacks (via the Archivist) to return it to the client, or it may
+return only some metadata, allowing the client to fetch the Item from the
+Archivist in some future request.

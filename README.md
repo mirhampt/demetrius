@@ -9,7 +9,8 @@ Prerequisites & Dependencies
 2. [Solr][] for the Catalogue. Developed against Solr 4 but may work with earlier versions.
 3. A suitable queue back end for Celery. By default [Redis][] is configured for
    development, but you may want RabbitMQ for production.
-4. Python 2.7 and virtualenv
+4. An SQL database supported by Django, for administrative data.
+5. Python 2.7 and virtualenv
 
 If you're not interested in installing all that stuff on your machine, there's
 a Vagrantfile that will build a suitable virtual machine for you. Just install
@@ -31,6 +32,11 @@ get started is:
     mkvirtualenv -a `pwd` -r requirements.txt demetrius
     vagrant up
 
+If you get an error "No protoc compiler was found!" when installing the riak
+driver it means you need to install the Protocol Buffers Compiler. On Mac OS X
+`brew install protobuf` should do it. (I didn't see this on Linux, so it may be
+a non-issue there, but there is a `protobuf-compiler` package on Ubuntu, try
+that.)
 
 [Riak]: http://basho.com/products/riak-overview/
 [Solr]: http://lucene.apache.org/solr/
