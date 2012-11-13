@@ -84,14 +84,14 @@ more visible.**
 
 .. note::
 
-    This represents a (hopefully) workable subset of this for the first
-    release. Even "core" compliance is too broad an implementation for a first
-    iteration.
+    Carve out a workable subset of this for the first release. Even "core"
+    compliance is too broad an implementation for a first iteration.
 
 Item
     * GUID
     * version (Must be a positive integer for IPTC compliance.)
     * icon [ATOM:feed.icon? No equivalent for entry.]
+    * rightsInfo.accountable
     * rightsInfo.copyrightHolder
     * rightsInfo.copyrightNotice [ATOM:entry.rights]
     * rightsInfo.usageTerms
@@ -104,17 +104,27 @@ Item
       [ATOM:entry.published see also itemMeta.firstCreated]
     * itemMeta.versionCreated
     * itemMeta.firstCreated [ATOM:entry.published if no embargo date]
+    * itemMeta.role
+    * itemMeta.filename
+    * itemMeta.service
     * itemMeta.title (internal for editors).
     * itemMeta.edNote (internal for editors).
+    * itemMeta.deliverableOf (reference to the PlanningItem that spawned it)
+    * contentMeta.audience
     * contentMeta.contentCreated
     * contentMeta.contentModified [ATOM:entry.updated]
     * contentMeta.contributor [ATOM:entry.contributor]
     * contentMeta.creator [ATOM:entry.author]
+    * contentMeta.located
+    * contentMeta.infoSource
+    * contentMeta.urgency
     * contentMeta.by
     * contentMeta.creditline
     * contentMeta.dateline
     * contentMeta.description [ATOM:entry.summary]
+    * contentMeta.genre
     * contentMeta.headline [ATOM:entry.title]
+    * contentMeta.keyword
     * contentMeta.language
     * contentMeta.slugline
     * contentMeta.subject [ATOM:category]
