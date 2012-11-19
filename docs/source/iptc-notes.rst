@@ -1,14 +1,5 @@
-Information Architecture
+Notes on IPTC Architecture in Demetrius
 ================================================================================
-Although you are free to create your own ItemTypes and Archetypes, Demetrius
-ships with a set of built-in components comprising a ready-made information
-architecture for publishing. It is designed to be compatible with the `IPTC News
-Architecture`_, as well as the `Atom syndication format`_. This document
-describes that information architecture and how it maps to the IPTC News
-Architecture.
-
-Assets are reusable content objects which can be addressed individually.
-
 When creating a consumer experience, Assets are seldom the primary mode of
 presentation. Usually, Assets will be composed together into Packages which are
 presented to the consumer as a single entity. The IPTC architecture allows for

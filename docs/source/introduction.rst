@@ -74,7 +74,7 @@ the context of Demetrius.)
 Scribes are implemented as Celery background tasks.
 
 Workflow: Following an Item through the system
-================================================================================
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 An Item begins life somewhere outside of Alexandria, created in an off-the-shelf
 publishing tool such as Wordpress, or a purpose-built tool that you have created
 yourself. After its creation, the Item is submitted to the Archivist by some

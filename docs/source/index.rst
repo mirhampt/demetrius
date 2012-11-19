@@ -1,8 +1,3 @@
-.. Demetrius documentation master file, created by
-   sphinx-quickstart on Sat Nov  3 08:50:27 2012.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
 Demetrius: The First Librarian of Alexandria
 ================================================================================
 Demetrius is a "librarian" who manages a central content library ("Alexandria")
@@ -53,6 +48,7 @@ Contents:
     archivist
     validators
     catalogue
+    iptc-notes
 
 
 Indices and tables
