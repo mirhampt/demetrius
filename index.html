@@ -1,0 +1,193 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Demetrius: The First Librarian of Alexandria &mdash; Demetrius 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Demetrius 0.0.1 documentation" href="#" />
+    <link rel="next" title="Concepts and Components of Demetrius" href="introduction.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="introduction.html" title="Concepts and Components of Demetrius"
+             accesskey="N">next</a> |</li>
+        <li><a href="#">Demetrius 0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="demetrius-the-first-librarian-of-alexandria">
+<h1>Demetrius: The First Librarian of Alexandria<a class="headerlink" href="#demetrius-the-first-librarian-of-alexandria" title="Permalink to this headline">¶</a></h1>
+<p>Demetrius is a &#8220;librarian&#8221; who manages a central content library (&#8220;Alexandria&#8221;)
+for a large web content management system. You could say Demetrius IS a web
+content management system, but it lacks certain features that are commonly
+expected in a CMS. Demetrius does not implement publishing tools or web site
+templates. Demetrius is intended to fill the role of a large-scale,
+high-performance content repository accessed over HTTP.</p>
+<p>Note that Demetrius is not a general-purpose database, but is explicitly a
+content repository. Its mission is to store and catalog content (however you
+define content in your application). Demetrius is built on these principles:</p>
+<ul class="simple">
+<li>Store content as structured objects, separate from any presentation details,
+allowing clients to adapt presentation to the consumer&#8217;s context.</li>
+<li>Enable search, discovery, and sharing of content objects, using metadata and
+relationships between objects, both explicit and inferred.</li>
+<li>Expose the structured content through a simple web-based API in standard
+formats, so that content can be reused easily across a variety of platforms.</li>
+</ul>
+<p>Demetrius is designed to solve several problems for large web publishing
+organizations:</p>
+<ul class="simple">
+<li>Enable discovery and sharing of available content across the entire
+organization using a simple, cross-platform API.</li>
+<li>Simplify content reuse by transforming data into well-known formats.</li>
+<li>Allow the use of a variety of off-the-shelf or purpose-built publishing tools.</li>
+<li>Allow the acquisition of content from sources external to the organization.</li>
+<li>Allow for the enrichment of content metadata, without requiring alterations to
+publishing tools.</li>
+<li>Clean separation of the presentation layer (which could be a web page, a
+native mobile app, or any other client) from the data storage layer.</li>
+</ul>
+<p>This document describes the inner workings of Demetrius, the software
+architecture and the information architecture. It should be useful to people
+developing Demetrius or running their own instance. For clients who merely wish
+to access services provided by Demetrius, separate documentation will be
+provided later.</p>
+<p>Contents:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Concepts and Components of Demetrius</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#the-stacks">The Stacks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#the-catalogue">The Catalogue</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#archetypes">Archetypes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#curators-and-spectators">Curators and Spectators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#workflow-following-an-item-through-the-system">Workflow: Following an Item through the system</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="information-architecture.html">Information Architecture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ia-hierarchy.html">Hierarchy of ItemTypes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ia-item.html">Item: Administrative Metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ia-content.html">Content Items: Descriptive Metadata</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="rest-api.html">The REST API exported by Demetrius</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="rest-api.html#the-catalogue-api">The Catalogue API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rest-api.html#the-stacks-api">The Stacks API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="archivist.html">The Archivist &#8211; Design</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="archivist.html#assigning-identifiers">Assigning Identifiers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="archivist.html#versioning">Versioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="archivist.html#catalogs">Catalogs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="validators.html">Validators</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="validators.html#custom-validation-functions">Custom Validation Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="validators.html#validation-schemas">Validation Schemas</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="catalogue.html">The Catalogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="iptc-notes.html">Notes on IPTC Architecture in Demetrius</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="iptc-notes.html#hierarchy-of-itemtypes">Hierarchy of ItemTypes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="iptc-notes.html#itemtypes-and-their-attributes">ItemTypes and their Attributes</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><em>Index</em></a></li>
+<li><a class="reference internal" href="py-modindex.html"><em>Module Index</em></a></li>
+<li><a class="reference internal" href="search.html"><em>Search Page</em></a></li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Demetrius: The First Librarian of Alexandria</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+
+  <h4>Next topic</h4>
+  <p class="topless"><a href="introduction.html"
+                        title="next chapter">Concepts and Components of Demetrius</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="introduction.html" title="Concepts and Components of Demetrius"
+             >next</a> |</li>
+        <li><a href="#">Demetrius 0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Vince Veselosky.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

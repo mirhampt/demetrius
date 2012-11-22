@@ -1,0 +1,218 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The Archivist – Design &mdash; Demetrius 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Demetrius 0.0.1 documentation" href="index.html" />
+    <link rel="next" title="Validators" href="validators.html" />
+    <link rel="prev" title="The REST API exported by Demetrius" href="rest-api.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="validators.html" title="Validators"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="rest-api.html" title="The REST API exported by Demetrius"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Demetrius 0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="the-archivist-design">
+<h1>The Archivist &#8211; Design<a class="headerlink" href="#the-archivist-design" title="Permalink to this headline">¶</a></h1>
+<p>Nearly all REST APIs expose URLs of the following form:</p>
+<div class="highlight-python"><pre>/{collection}/ # Returns a list of items
+/{collection}/{identifier}/ # Returns the identified item</pre>
+</div>
+<p>In the case of most MVC frameworks (including Django with either REST framework
+or Tastypie), <cite>{collection}</cite> actually translates to <cite>{ItemType}</cite>.</p>
+<p>Additionally, Tastypie exposes:</p>
+<div class="highlight-python"><pre>/{collection}/set/{list-or-range-of-identifiers}/ # Returns a list of items
+/{collection}/schema/ # Description of the ItemType schema (non-standard)</pre>
+</div>
+<p>This is great functionality, but the URL construction is problematic, as any
+object that had an identifier of &#8220;set&#8221; or &#8220;schema&#8221; would be inaccessible through
+the API. In typical MVC usage that isn&#8217;t a problem, since the <cite>{identifier}</cite>
+part is almost always an integer primary key. Integer primary keys don&#8217;t scale,
+so we&#8217;ll be using UUID as an identifier, but in the URL we prefer to use a more
+friendly format, see under <a class="reference internal" href="#assigning-identifiers">Assigning Identifiers</a>.</p>
+<p>A better construction:</p>
+<div class="highlight-python"><pre>/schema/{itemtype}/
+/{itemtype}/{identfier}+{identifier} # Requires identifiers to be slugified</pre>
+</div>
+<p>This should return a standard schema, for example a W3C XML Schema document or a
+json-schema document. See <a class="reference internal" href="validators.html"><em>Validators</em></a>.</p>
+<div class="section" id="assigning-identifiers">
+<h2>Assigning Identifiers<a class="headerlink" href="#assigning-identifiers" title="Permalink to this headline">¶</a></h2>
+<p>From IPTC-G2 Implementation Guide (4) section 7.3.1.3:</p>
+<blockquote>
+<div><p>GUID</p>
+<p>Each NewsML-G2 document MUST provide an identifier that is guaranteed to be
+globally unique for all time and independent of location, (The standard
+permits documents to be physically located in many places but each document
+may have only one ID). The form of the identifier MUST be an IRI
+(Internationalized URI). One way to guarantee uniqueness is to create an ID
+using some algorithm that combines the provider name and the date-time that
+the document was first generated, combined with some other information that
+may be needed to disambiguate the document.</p>
+<p>The IPTC has registered a URN for the purpose of creating GUIDs for
+NewsML-G2 Items using a specification in RFC 3085bis. The syntax for a GUID
+using this scheme is:</p>
+<div class="highlight-python"><pre>guid=“urn:newsml:[ProviderId]:[DateId]:[NewsItemId]”</pre>
+</div>
+<p>The ProviderId must be in the form of a valid internet domain name owned by
+the provider: in our case this is acme-news.com. The DateId must be in the
+form CCYYMMDD, and the NewsItemId must be unique for all items published by
+the Provider on this Date. For this example we will use the story’s Slugline
+(but note that this is unlikely to be granular enough in a real-world
+implementation).</p>
+<div class="highlight-python"><pre>guid=“urn:newsml:acme-news.com:20081125:US-FINANCE-ROBINSON”</pre>
+</div>
+<p>Any ID that can be guaranteed to be globally unique is valid for NewsML-G2.
+Some implementers use a Tag URI (RFC 4151), for example:</p>
+<div class="highlight-python"><pre>guid=“tag:afp.com,2008:TX-PAR:20080529:JYC80”</pre>
+</div>
+<p>Other schemes used include UUID (Universally Unique Identifier, a URN
+namespace) (see IETF RFC 4122 Page) and DOI (Digital Object Identifier).</p>
+<p>Where a provider has used some algorithm based on date and time (such as RFC
+3085) to create a GUID, recipients MUST NOT “reverse engineer” the
+information to create a time-stamp.  This may have unintended consequences
+and result in errors.</p>
+</div></blockquote>
+<p>See also section 23.6 (p. 245) for dealing with updates and corrections, even
+when proper versioning is not supported by the source system (that is, when
+every version gets a new ID).</p>
+<p>Symbolic identifiers assigned by Demetrius should be either of the NewsML or Tag
+URI format. The two are effectively equivalent, but the NewsML version gives
+more flexibility in the ProviderID, where Tag URI must contain a domain or email
+address.</p>
+</div>
+<div class="section" id="versioning">
+<h2>Versioning<a class="headerlink" href="#versioning" title="Permalink to this headline">¶</a></h2>
+<p>None of these API conventions support versioning of resources. Some references
+that might be interesting related to versioning:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://arxiv.org/abs/1003.3661">An HTTP-based Versioning Mechanise for Linked Data</a></li>
+<li><a class="reference external" href="http://www.webdav.org/">WebDAV</a> (but this is terrible, do not use)</li>
+</ul>
+<p>Some interesting features I would like to enable eventually:</p>
+<ul class="simple">
+<li>Retrieve a list of previous or alternate versions of an existing resource.</li>
+<li>Retrieve a specific alternate version by ID.</li>
+<li>Retrieve a representation of the state of the resource at a specific time.</li>
+</ul>
+<p>The general outline is:</p>
+<ul class="simple">
+<li>Every resource is assigned a <em>symbolic identifier</em> that becomes part of its
+URI. <cite>http://api.example.com/v1/{itemtype}/{identifier}</cite></li>
+<li>Every version is assigned a UUID, which serves as the identifier of that
+specific version. The identifier becomes part of the URI for that version, and
+also serves as the <em>etag</em> for the resource when fetched from the symbolic
+identifier URI. <cite>http://api.example.com/v1/versions/{itemtype}/{identifier}/{UUID}</cite></li>
+<li>You can retrieve a list of all versions of a particular resources, along with
+some metadata for the version. <cite>http://api.example.com/v1/versions/{itemtype}/{identifier}/</cite></li>
+</ul>
+</div>
+<div class="section" id="catalogs">
+<h2>Catalogs<a class="headerlink" href="#catalogs" title="Permalink to this headline">¶</a></h2>
+<p>Is it the Archivist&#8217;s job to expose Catalogs of Controlled Vocabularies?</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">The Archivist &#8211; Design</a><ul>
+<li><a class="reference internal" href="#assigning-identifiers">Assigning Identifiers</a></li>
+<li><a class="reference internal" href="#versioning">Versioning</a></li>
+<li><a class="reference internal" href="#catalogs">Catalogs</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="rest-api.html"
+                        title="previous chapter">The REST API exported by Demetrius</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="validators.html"
+                        title="next chapter">Validators</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/archivist.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="validators.html" title="Validators"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="rest-api.html" title="The REST API exported by Demetrius"
+             >previous</a> |</li>
+        <li><a href="index.html">Demetrius 0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Vince Veselosky.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

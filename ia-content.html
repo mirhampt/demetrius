@@ -1,0 +1,235 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Content Items: Descriptive Metadata &mdash; Demetrius 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Demetrius 0.0.1 documentation" href="index.html" />
+    <link rel="up" title="Information Architecture" href="information-architecture.html" />
+    <link rel="next" title="The REST API exported by Demetrius" href="rest-api.html" />
+    <link rel="prev" title="Item: Administrative Metadata" href="ia-item.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="rest-api.html" title="The REST API exported by Demetrius"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="ia-item.html" title="Item: Administrative Metadata"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Demetrius 0.0.1 documentation</a> &raquo;</li>
+          <li><a href="information-architecture.html" accesskey="U">Information Architecture</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="content-items-descriptive-metadata">
+<h1>Content Items: Descriptive Metadata<a class="headerlink" href="#content-items-descriptive-metadata" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="ContentItem">
+<em class="property">class </em><tt class="descname">ContentItem</tt><a class="headerlink" href="#ContentItem" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div>Subclasses: <a class="reference internal" href="ia-item.html#Item" title="Item"><tt class="xref py py-class docutils literal"><span class="pre">Item</span></tt></a></div></blockquote>
+<dl class="attribute">
+<dt id="ContentItem.content_created">
+<tt class="descname">content_created</tt><a class="headerlink" href="#ContentItem.content_created" title="Permalink to this definition">¶</a></dt>
+<dd><p>IPTC: contentMeta.contentCreated</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ContentItem.content_modified">
+<tt class="descname">content_modified</tt><a class="headerlink" href="#ContentItem.content_modified" title="Permalink to this definition">¶</a></dt>
+<dd><p>IPTC: contentMeta.contentModified</p>
+<p>ATOM: entry.updated</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ContentItem.headline">
+<tt class="descname">headline</tt><a class="headerlink" href="#ContentItem.headline" title="Permalink to this definition">¶</a></dt>
+<dd><p>IPTC: contentMeta.headline</p>
+<p>ATOM: entry.title</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ContentItem.description">
+<tt class="descname">description</tt><a class="headerlink" href="#ContentItem.description" title="Permalink to this definition">¶</a></dt>
+<dd><p>IPTC: contentMeta.description</p>
+<p>ATOM: entry.summary</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ContentItem.byline">
+<tt class="descname">byline</tt><a class="headerlink" href="#ContentItem.byline" title="Permalink to this definition">¶</a></dt>
+<dd><p>From IPTC NewsML-G2 Specification 2.9:</p>
+<blockquote>
+<div>The byline provides a natural-language statement of the author/creator
+information. It may include a byline title, i.e. the author&#8217;s job title.
+Examples of bylines are RUPAK DE CHOWDHURI (a person), isotype.com (a
+provider) or STR (a stringer). It is up to the provider to decide if the
+label starts with a word like &#8220;By&#8221;.</div></blockquote>
+<p>IPTC: contentMeta.by</p>
+<p>ATOM: entry.author</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ContentItem.contributor">
+<tt class="descname">contributor</tt><a class="headerlink" href="#ContentItem.contributor" title="Permalink to this definition">¶</a></dt>
+<dd><p>IPTC: contentMeta.contributor</p>
+<p>ATOM: entry.contributor</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ContentItem.creator">
+<tt class="descname">creator</tt><a class="headerlink" href="#ContentItem.creator" title="Permalink to this definition">¶</a></dt>
+<dd><p>IPTC: contentMeta.creator</p>
+<p>ATOM: entry.author</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ContentItem.topics">
+<tt class="descname">topics</tt><a class="headerlink" href="#ContentItem.topics" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list of references to <tt class="xref py py-class docutils literal"><span class="pre">Topic</span></tt> items that relate to this Content.</p>
+<p>IPTC: contentMeta.subject</p>
+<p>ATOM: category</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ContentItem.dateline">
+<tt class="descname">dateline</tt><a class="headerlink" href="#ContentItem.dateline" title="Permalink to this definition">¶</a></dt>
+<dd><p>IPTC: contentMeta.dateline</p>
+<p>From IPTC NewsML-G2 Specification 2.9:</p>
+<blockquote>
+<div><p>A natural-language statement of the date and/or place of creation of the
+content.</p>
+<p>The dateline provides a natural-language statement of the date and/or
+place of the news content creation, to be displayed in situations where
+an abstract of the content is shown (case of search results) or the
+content is remote.</p>
+<p>Traditionally a dateline indicates when and where news content is
+created, not necessarily the time and place relative to the news event.</p>
+<p>As an example a dateline <cite>BAGHDAD, March 26, 2007 (AFP)</cite> could head a
+story about blast in Mosul, because the story was actually written in
+Baghdad. Also, by tradition a dateline will follow the stylebook of the
+information provider and possibly leave out certain time and location
+information that could be useful for specifying searches of a database.
+Editorial policy dictates the dateline; it is not automatically
+derivable from other markup (location, date, etc.). The dateline should
+not end with a separating character (of the kind that separates the
+dateline from the first sentence in a traditional wire story).</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ContentItem.creditline">
+<tt class="descname">creditline</tt><a class="headerlink" href="#ContentItem.creditline" title="Permalink to this definition">¶</a></dt>
+<dd><p>IPTC: contentMeta.creditline</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ContentItem.language">
+<tt class="descname">language</tt><a class="headerlink" href="#ContentItem.language" title="Permalink to this definition">¶</a></dt>
+<dd><p>IPTC: contentMeta.language</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ContentItem.slugline">
+<tt class="descname">slugline</tt><a class="headerlink" href="#ContentItem.slugline" title="Permalink to this definition">¶</a></dt>
+<dd><p>IPTC: contentMeta.slugline</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="docutils">
+<dt>Optional:</dt>
+<dd><ul class="first last simple">
+<li><cite>icon</cite> [ATOM:feed.icon? No equivalent for entry.]</li>
+</ul>
+</dd>
+</dl>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="ia-item.html"
+                        title="previous chapter">Item: Administrative Metadata</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="rest-api.html"
+                        title="next chapter">The REST API exported by Demetrius</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/ia-content.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="rest-api.html" title="The REST API exported by Demetrius"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="ia-item.html" title="Item: Administrative Metadata"
+             >previous</a> |</li>
+        <li><a href="index.html">Demetrius 0.0.1 documentation</a> &raquo;</li>
+          <li><a href="information-architecture.html" >Information Architecture</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Vince Veselosky.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

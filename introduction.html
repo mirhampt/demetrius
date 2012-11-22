@@ -1,0 +1,247 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Concepts and Components of Demetrius &mdash; Demetrius 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Demetrius 0.0.1 documentation" href="index.html" />
+    <link rel="next" title="Information Architecture" href="information-architecture.html" />
+    <link rel="prev" title="Demetrius: The First Librarian of Alexandria" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="information-architecture.html" title="Information Architecture"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Demetrius: The First Librarian of Alexandria"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Demetrius 0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="concepts-and-components-of-demetrius">
+<h1>Concepts and Components of Demetrius<a class="headerlink" href="#concepts-and-components-of-demetrius" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="the-stacks">
+<h2>The Stacks<a class="headerlink" href="#the-stacks" title="Permalink to this headline">¶</a></h2>
+<p>In a physical library, the Stacks are where all the books are kept. Under
+Demetrius, the Stacks are the main storage database. Access to the Stacks is
+managed by a program called the Archivist. The Stacks are implemented as a Riak
+database, and the Archivist is a Django application.</p>
+<p>The primary mission of the Archivist is storage and retrieval of content items.
+The Archivist implements a permissions layer above the Stacks to manage access,
+and manages a version history for each content item added to the Stacks. The
+Archivist has no knowledge of the content of the items <em>per se</em>, but treats them
+all as generic Items to be managed.</p>
+<p>Before the Archivist stores any item into the Stacks, it must be able to
+classify the item by its ItemType, and verify its validity as an item of that
+type.</p>
+<p>An ItemType is any data structure that can be validated programmatically. It
+could be a JSON object, or an XML tree conforming to a specific schema.</p>
+<p>The function or class that performs the validation is called a Validator.
+Demetrius 1.0 will ship with 3 validators included. You may install others. The
+three are:</p>
+<ul class="simple">
+<li>SimpleFeed: Validates simple syndication feeds such as Atom and the various
+versions of RSS. The validator basically accepts anything that can be parsed
+by feedparser.py.</li>
+<li>JSONSchema: Checks JSON data structures for conformance with a declared JSON
+schema.</li>
+<li>XMLSchema: Checks XML data structures for conformance with a declared XML
+schema.</li>
+</ul>
+</div>
+<div class="section" id="the-catalogue">
+<h2>The Catalogue<a class="headerlink" href="#the-catalogue" title="Permalink to this headline">¶</a></h2>
+<p>The Catalogue is the search index that allows you to find any content in the
+library. It is implemented as a Solr 4 cluster.</p>
+<p>Indexers take content items from the Stacks and add them to the Catalogue,
+usually by extracting or generating metadata that will later be used for
+searching. Indexers are implemented as Celery background tasks.</p>
+<p>The Researcher is the server process that exposes the web API giving you access
+to the Catalogue. It is implemented as a Django application.</p>
+<p>The Catalogue is entirely internal to Demetrius. Any clients wishing to search
+the Catalogue must do so through the Researcher. The Solr search service is
+<em>not</em> directly exposed to Demetrius users. Nothing is added to the
+Catalogue except by an Indexer.</p>
+</div>
+<div class="section" id="archetypes">
+<h2>Archetypes<a class="headerlink" href="#archetypes" title="Permalink to this headline">¶</a></h2>
+<p>An Archetype is a &#8220;well-known&#8221; data structure, that is, a data structure that is
+compatible across a large number of platforms, services, or tools. Archetypes
+represent the formats preferred by <em>consumers</em> of the content in your library.</p>
+<p>Archetypes are the hub of the information architecture in Demetrius. The
+Catalogue is optimized for searching Archetypes, with detailed Archetype
+metadata baked into the search schema. Because Archetypes are the preferred
+format for consumption, Demetrius employs <em>Scribes</em> to transcribe content items
+into Archetypes. The transcribed items are stored in the Stacks along with
+the original.</p>
+<p>As the owner of your own Library of Alexandria, the information architecture is
+completely under your control. You can define your own Archetypes and change the
+search schema to suit your needs. You get to decide which data structures you
+want to become the <em>lingua franca</em> of your own library.</p>
+<p>However, since defining an entire information architecture can be burdensome and
+difficult, Demetrius ships with its own information architecture based on the <a class="reference external" href="http://www.iptc.org/site/News_Exchange_Formats/Developers/">IPTC
+News Architecture</a>.  Demetrius also implements Archetypes compatible with the
+Atom syndication format (<a class="reference external" href="http://tools.ietf.org/html/rfc4287">RFC 4287</a>) for simpler needs. You are not <em>required</em> to
+use either set of Archetypes in your own applications, but our intent is that
+most applications should be able to use this architecture &#8220;out of the box&#8221;.</p>
+<p>More detail is available in the <a class="reference internal" href="information-architecture.html"><em>Information Architecture</em></a> section.</p>
+</div>
+<div class="section" id="curators-and-spectators">
+<h2>Curators and Spectators<a class="headerlink" href="#curators-and-spectators" title="Permalink to this headline">¶</a></h2>
+<p>As a librarian, Demetrius does not produce content, but merely stores and
+catalogs it. All the content in the library must come from some external source.
+Such an external source is sometimes called a <em>Codex</em>.</p>
+<p>Some process is required to pull content from a Codex and submit it to Demetrius
+for cataloging. Such a process is called a <em>Curator</em>. From the perspective of
+Demetrius, you can think of a Curator as a <em>producer</em> of content. Curators
+require special access permissions to put items into the library, and Curators
+tend to work directly with ItemTypes rather than Archetypes.</p>
+<p>Demetrius does not provide Curators. You will need to create them yourself.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">A generic feed curator would be very useful and not terribly difficult to
+create. Should one ship with Demetrius? Should we ship it separately as a
+&#8220;contrib&#8221; tool?</p>
+</div>
+<p>At the opposite end are readers or consumers of content. Demetrius calls these
+<em>Spectators</em>. Spectators may have varying levels of access based on permissions,
+but even anonymous Spectators have some basic access to the library. Spectators
+typically work with Archetypes rather than directly with ItemTypes.</p>
+</div>
+<div class="section" id="workflow-following-an-item-through-the-system">
+<h2>Workflow: Following an Item through the system<a class="headerlink" href="#workflow-following-an-item-through-the-system" title="Permalink to this headline">¶</a></h2>
+<p><strong>1. Codex creates item.</strong> An Item begins life somewhere outside of Alexandria,
+created in an off-the-shelf publishing tool such as Wordpress, or a
+purpose-built tool that you have created yourself.</p>
+<p><strong>2. Curator submits item.</strong> After its creation, the Item is submitted to the
+Archivist by some process of your own design (we call such a process a Curator).</p>
+<p><strong>3. Archivist stores item.</strong> The Archivist receives from the Curator a request
+to store an Item of a particular ItemType. The Archivist then looks up the
+appropriate Validator for that ItemType and asks it to check the validity of the
+Item. If the Item passes the validity check, it is stored in the Stacks, and a
+success response code is returned to the Curator, along with the URL assigned to
+the new Item.</p>
+<p><strong>4. Archivist alerts Scribe.</strong> After storing the Item, the Archivist sends an
+Item-Updated message to the Scribe.</p>
+<p><strong>5. Scribe transcribes item into Archetypes.</strong> The Scribe receives the
+Item-Updated message and retrieves the Item from the Stacks (via the Archivist).
+The Scribe then looks up all registered transcription functions for the ItemType
+and executes them. The transcription functions take the Item as input, and
+generate as output a new rendition of the Item conforming to a specific
+Archetype. Each transcription function then stores its output back into the
+Stacks (via the Archivist), linking it to the original input Item.</p>
+<p><strong>6. Scribe alerts Indexer.</strong> When transcription is complete, the Scribe sends
+an Item-Updated message to the Indexer for each Archetype to which the Item has
+been transcribed.</p>
+<p><strong>7. Indexer catalogs item.</strong> The Indexer receives the Item-Updated message and
+retrieves the Item from the Stacks (via the Archivist). Finally, the Item is
+indexed into the Catalogue, where it becomes available for search and general
+consumption.</p>
+<p><strong>8. Spectator accesses item.</strong> API clients seeking to discover content send
+queries to the Researcher. The Researcher searches the Catalogue for Items
+matching the client&#8217;s query.  Depending on the nature of the query, the
+Researcher may fetch the requested Item from the Stacks (via the Archivist) to
+return it to the client, or it may return only some metadata, allowing the
+client to fetch the Item from the Archivist in some future request.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Concepts and Components of Demetrius</a><ul>
+<li><a class="reference internal" href="#the-stacks">The Stacks</a></li>
+<li><a class="reference internal" href="#the-catalogue">The Catalogue</a></li>
+<li><a class="reference internal" href="#archetypes">Archetypes</a></li>
+<li><a class="reference internal" href="#curators-and-spectators">Curators and Spectators</a></li>
+<li><a class="reference internal" href="#workflow-following-an-item-through-the-system">Workflow: Following an Item through the system</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Demetrius: The First Librarian of Alexandria</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="information-architecture.html"
+                        title="next chapter">Information Architecture</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/introduction.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="information-architecture.html" title="Information Architecture"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Demetrius: The First Librarian of Alexandria"
+             >previous</a> |</li>
+        <li><a href="index.html">Demetrius 0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Vince Veselosky.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

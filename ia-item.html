@@ -1,0 +1,290 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Item: Administrative Metadata &mdash; Demetrius 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Demetrius 0.0.1 documentation" href="index.html" />
+    <link rel="up" title="Information Architecture" href="information-architecture.html" />
+    <link rel="next" title="Content Items: Descriptive Metadata" href="ia-content.html" />
+    <link rel="prev" title="Hierarchy of ItemTypes" href="ia-hierarchy.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="ia-content.html" title="Content Items: Descriptive Metadata"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="ia-hierarchy.html" title="Hierarchy of ItemTypes"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Demetrius 0.0.1 documentation</a> &raquo;</li>
+          <li><a href="information-architecture.html" accesskey="U">Information Architecture</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="item-administrative-metadata">
+<h1>Item: Administrative Metadata<a class="headerlink" href="#item-administrative-metadata" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="Item">
+<em class="property">class </em><tt class="descname">Item</tt><a class="headerlink" href="#Item" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Item class is the root of the item hierarchy. If you create your own
+ItemTypes, they must inherit from Item. The Item class implements the
+<em>administrative</em> metadata for content items, fields that are used by the
+content management system to manage the content.</p>
+<dl class="attribute">
+<dt id="Item.guid">
+<tt class="descname">guid</tt><a class="headerlink" href="#Item.guid" title="Permalink to this definition">¶</a></dt>
+<dd><p>If you POST a new item without a GUID, one will be provided by
+Demetrius. Duplicate GUIDs will be rejected.</p>
+<p>IPTC: GUID</p>
+<p>ATOM: id</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Item.item_type">
+<tt class="descname">item_type</tt><a class="headerlink" href="#Item.item_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Indicates the ItemType. Used for the selection of Validators, Scribes,
+and Indexers.</p>
+<p>IPTC: itemMeta.itemClass. CV required for NewsML serialization.</p>
+<p>ATOM: entry.content[&#64;type].</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Item.provider">
+<tt class="descname">provider</tt><a class="headerlink" href="#Item.provider" title="Permalink to this definition">¶</a></dt>
+<dd><p>Indicates the party responsible for the origination and release of the
+content. This field references a <tt class="xref py py-class docutils literal"><span class="pre">PublishingOrganization</span></tt>
+Concept. Demetrius will not accept content with an unknown provider. You
+must register your provider with Demetrius.</p>
+<p>IPTC itemMeta.provider</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Item.rights_info">
+<tt class="descname">rights_info</tt><a class="headerlink" href="#Item.rights_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>An embedded object with properties that indicate the copyright status
+and usage restrictions on the item. The object may have attributes for
+&#8220;accountable_party&#8221;, &#8220;copyright_holder&#8221;, &#8220;copyright_notice&#8221;, and
+&#8220;usage_terms&#8221;.</p>
+<p>IPTC: rightsInfo</p>
+<p>ATOM: rights</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Item.pub_status">
+<tt class="descname">pub_status</tt><a class="headerlink" href="#Item.pub_status" title="Permalink to this definition">¶</a></dt>
+<dd><p>A reference to a <tt class="xref py py-class docutils literal"><span class="pre">PublishingStatus</span></tt> Concept representing the
+publication status, that is, whether the content is available to be
+viewed by the public.</p>
+<p>IPTC: itemMeta.pubStatus. Controlled Vocabulary required for NewsML
+serialization.</p>
+<p>ATOMPUB: entry.control.draft (roughly).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Item.pub_date">
+<tt class="descname">pub_date</tt><a class="headerlink" href="#Item.pub_date" title="Permalink to this definition">¶</a></dt>
+<dd><p>Datetime that the item became, or will become, available for viewing by
+the public. If in the future, this maps to the <em>itemMeta.embargoed</em>
+field in IPTC. Otherwise IPTC does not appear to have an equivalent.</p>
+<p>For performance reasons, Demetrius will truncate to the minute if the
+provided Datetime is more precise. A granularity of one hour or greater
+is recommended.</p>
+<p>IPTC: itemMeta.embargoed (Datetime that item embargo ends.)</p>
+<p>ATOM: entry.published</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Item.created_date">
+<tt class="descname">created_date</tt><a class="headerlink" href="#Item.created_date" title="Permalink to this definition">¶</a></dt>
+<dd><p>Datetime when this item was first created within Demetrius (as distinct
+from when the content itself was created, which is always earlier).</p>
+<p>IPTC: itemMeta.firstCreated</p>
+<p>ATOM: entry.published</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Item.version">
+<tt class="descname">version</tt><a class="headerlink" href="#Item.version" title="Permalink to this definition">¶</a></dt>
+<dd><p>An integer value that increases as updates are made to the item. Not
+guaranteed to be sequential, but larger integers always indicate newer
+versions.</p>
+<p>IPTC: version (Must be a positive integer for IPTC compliance.)</p>
+<p>ATOM: no equivalent</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Item.version_created">
+<tt class="descname">version_created</tt><a class="headerlink" href="#Item.version_created" title="Permalink to this definition">¶</a></dt>
+<dd><p>Datetime value when this version of the item (as distinct from the
+content it contains) was created. This value MAY be modified when only
+administrative metadata has been changed. This is equivalent to the
+&#8220;last modified&#8221; date of the item (if you are looking at the latest
+version).</p>
+<p>IPTC: itemMeta.versionCreated</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Item.profile">
+<tt class="descname">profile</tt><a class="headerlink" href="#Item.profile" title="Permalink to this definition">¶</a></dt>
+<dd><p>A string describing the structural template for the content.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Is this needed in Demetrius? Or is the whole concept
+replaced by being able to subclass items? In NewsML this seems to be
+used to describe the shape of a Package.</p>
+</div>
+<p>IPTC: profile</p>
+<p>ATOM: No equivalent</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Item.hash">
+<tt class="descname">hash</tt><a class="headerlink" href="#Item.hash" title="Permalink to this definition">¶</a></dt>
+<dd><p>An integrity check on the content.</p>
+<p>IPTC: hash</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Item.admin_title">
+<tt class="descname">admin_title</tt><a class="headerlink" href="#Item.admin_title" title="Permalink to this definition">¶</a></dt>
+<dd><p>A string that serves as the title of the item in the CMS. This string is
+intended for use <em>only</em> by the editorial staff, and is not necessarily
+the same as the title you would display to a consumer of the content
+(called a <em>headline</em>).</p>
+<p>IPTC: itemMeta.title</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Item.editorial_notes">
+<tt class="descname">editorial_notes</tt><a class="headerlink" href="#Item.editorial_notes" title="Permalink to this definition">¶</a></dt>
+<dd><p>An array of descriptive notes tacked onto the item, meant for editorial
+staff to share notes. These notes should not be exposed to consumers of
+the content.</p>
+<p>A Note is actually an embedded object with a creator and modified date
+as well as the block of text that makes up the content of the note.
+Notes cannot be retrieved separately from the item they are attached to.</p>
+<p>IPTC: itemMeta.edNote</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Item.processing_flags">
+<tt class="descname">processing_flags</tt><a class="headerlink" href="#Item.processing_flags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Processing flags are signals that indicate instructions or constraints
+on how the item should be handled by content managers. These flags MAY
+be recognized by Demetrius itself, or MAY be opaque values that are
+merely passed through.</p>
+<p>IPTC: signal</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Item.version_history">
+<tt class="descname">version_history</tt><a class="headerlink" href="#Item.version_history" title="Permalink to this definition">¶</a></dt>
+<dd><p>URI where you can retrieve the version history for the item. This
+property should only be exposed if you have permission to view the
+history.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Item.alternatives">
+<tt class="descname">alternatives</tt><a class="headerlink" href="#Item.alternatives" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reference to a list of alternative TypedItems conveying the same content
+in an alternative format.</p>
+</dd></dl>
+
+</dd></dl>
+
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">(<cite>standard</cite>, <cite>standardversion</cite>, and <cite>conformance</cite> are required fields for
+NewsML serialization, but pertain to the serialization format and not the
+item itself. They are not stored.)</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="ia-hierarchy.html"
+                        title="previous chapter">Hierarchy of ItemTypes</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="ia-content.html"
+                        title="next chapter">Content Items: Descriptive Metadata</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/ia-item.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="ia-content.html" title="Content Items: Descriptive Metadata"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="ia-hierarchy.html" title="Hierarchy of ItemTypes"
+             >previous</a> |</li>
+        <li><a href="index.html">Demetrius 0.0.1 documentation</a> &raquo;</li>
+          <li><a href="information-architecture.html" >Information Architecture</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Vince Veselosky.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
