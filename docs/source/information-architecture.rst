@@ -13,7 +13,7 @@ When creating a consumer experience, Assets are seldom the primary mode of
 presentation. Usually, Assets will be composed together into Packages which are
 presented to the consumer as a single entity. The IPTC architecture allows for
 creation of composite Packages, but does not define any specific Package
-patterns for reuse. Things like ImageGalleries and VideoPlaylists are not
+profiles for reuse. Things like ImageGalleries and VideoPlaylists are not
 specified in the architecture, and must be constructed by convention.
 
 News stories are listed under Packages tentatively, because news stories are
@@ -49,63 +49,4 @@ managed by the system.
     ia-hierarchy
     ia-item
     ia-content
-
-NewsItem inherits Item
-    * contentSet: inlineXML, inlineData, or remoteContent
-
-PackageItem inherits Item
-    * groupSet: contains groups
-    * groupSet.group: contains instances groupRef, itemRef, conceptRef
-
-Concept
-    * type
-    * name
-    * definition
-    * note
-    * remoteInfo
-    * hierarchyInfo
-    * sameAs
-    * related
-    * broader
-    * narrower
-
-Person inherits Concept
-    * born
-    * died
-    * affiliation
-    * contactInfo.role
-    * contactInfo.email
-    * contactInfo.im
-    * contactInfo.phone
-    * contactInfo.fax
-    * contactInfo.web
-    * contactInfo.address
-    * contactInfo.note
-
-Organisation inherits Concept
-    * founded
-    * disolved
-    * location
-    * contactInfo
-
-GeoArea inherits Concept
-    * position
-    * founded
-    * disolved
-
-PointOfInterest inherits Concept
-    * position
-    * openHours
-    * capacity
-    * access
-    * details
-    * contactInfo
-    * created
-    * ceasedToExist
-
-Object inherits Concept
-    * created
-    * creator
-    * copyrightNotice
-    * ceasedToExist
 

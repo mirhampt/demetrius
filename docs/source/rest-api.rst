@@ -18,6 +18,15 @@ own process.
 If you wanted to use a search engine other than Solr as your Catalogue, you
 would need to reimplement the Researcher.
 
+Search Functions
+--------------------------------------------------------------------------------
+`/catalogue/`
+    Search the Catalogue. Without query parameters, returns list of Archetypes.
+
+`/catalogue/{archetype}/`
+
+
+
 .. _opensearch.org: http://www.opensearch.org/
 
 The Stacks API

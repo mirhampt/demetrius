@@ -1,7 +1,7 @@
 Hierarchy of ItemTypes
 ================================================================================
 
-* Item (IPTC: anyItem)
+Item (IPTC: anyItem)
 
   * Content
 
@@ -44,4 +44,63 @@ Hierarchy of ItemTypes
 
     * Ontology (IPTC: KnowledgeItem)
     * [not implemented] (IPTC: PlanningItem)
+
+NewsItem inherits Item
+    * contentSet: inlineXML, inlineData, or remoteContent
+
+PackageItem inherits Item
+    * groupSet: contains groups
+    * groupSet.group: contains instances groupRef, itemRef, conceptRef
+
+Concept
+    * type
+    * name
+    * definition
+    * note
+    * remoteInfo
+    * hierarchyInfo
+    * sameAs
+    * related
+    * broader
+    * narrower
+
+Person inherits Concept
+    * born
+    * died
+    * affiliation
+    * contactInfo.role
+    * contactInfo.email
+    * contactInfo.im
+    * contactInfo.phone
+    * contactInfo.fax
+    * contactInfo.web
+    * contactInfo.address
+    * contactInfo.note
+
+Organisation inherits Concept
+    * founded
+    * disolved
+    * location
+    * contactInfo
+
+GeoArea inherits Concept
+    * position
+    * founded
+    * disolved
+
+PointOfInterest inherits Concept
+    * position
+    * openHours
+    * capacity
+    * access
+    * details
+    * contactInfo
+    * created
+    * ceasedToExist
+
+Object inherits Concept
+    * created
+    * creator
+    * copyrightNotice
+    * ceasedToExist
 
