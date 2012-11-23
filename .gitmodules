@@ -1,3 +1,3 @@
 [submodule "docs/site"]
 	path = docs/site
-	url = git@github.com:veselosky/demetrius.git
+	url = https://github.com/veselosky/demetrius.git
