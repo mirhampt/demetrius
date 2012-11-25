@@ -52,29 +52,68 @@
             
   <div class="section" id="the-rest-api-exported-by-demetrius">
 <h1>The REST API exported by Demetrius<a class="headerlink" href="#the-rest-api-exported-by-demetrius" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="the-catalogue-api">
-<h2>The Catalogue API<a class="headerlink" href="#the-catalogue-api" title="Permalink to this headline">¶</a></h2>
-<p>Most interactions with Demetrius begin with the Catalogue API, the central point of
-content discovery.</p>
-<p>The Catalogue API allows filtering on a variety of metadata fields. It can sort
-results by many fields, and return faceted results for drill-down searches.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">See <a class="reference external" href="http://www.opensearch.org/">opensearch.org</a> for some standards we should implement.</p>
 </div>
-<p>The Catalogue API is implemented by the Researcher. The default Researcher that
-ships with Demetrius is a Django pluggable app, which can easily be run as its
-own process.</p>
-<p>If you wanted to use a search engine other than Solr as your Catalogue, you
-would need to reimplement the Researcher.</p>
-<div class="section" id="search-functions">
-<h3>Search Functions<a class="headerlink" href="#search-functions" title="Permalink to this headline">¶</a></h3>
-<dl class="docutils">
-<dt><cite>/catalogue/</cite></dt>
-<dd>Search the Catalogue. Without query parameters, returns list of Archetypes.</dd>
-</dl>
-<p><cite>/catalogue/{archetype}/</cite></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The structure of the Catalogue is dependent on your information
+architecture. This document describes the default information architecture
+that ships with Demetrius. If you have customized your information
+architecture, you must provide your own docs!</p>
 </div>
+<p>Resources:</p>
+<dl class="docutils">
+<dt><cite>/</cite></dt>
+<dd>API service discovery document. List of major sub-services in the API.</dd>
+<dt><cite>/content/</cite></dt>
+<dd>API service discovery document. List of available Archetypes, supported
+serialization formats, and valid query parameters for general search. This
+is the bulk of the common API functions. See under <em class="xref std std-ref">Searching the
+Catalogue</em>.</dd>
+<dt><cite>/concepts/</cite></dt>
+<dd>API service discovery document. The <cite>/concepts/</cite> namespace is used mostly
+for administrative concepts used by the publishing tools. For concepts
+relating to content subjects, see under <cite>/ontology/</cite>.</dd>
+<dt><cite>/concepts/publishing_status/</cite></dt>
+<dd>List of all valid publishing statuses.</dd>
+<dt><cite>/concepts/publishing_organizations/</cite></dt>
+<dd>List of registered publishing organizations.</dd>
+<dt><cite>/concepts/processing_flags/</cite></dt>
+<dd>List of processing flags understood by Demetrius.</dd>
+<dt><cite>/ontology/</cite></dt>
+<dd>API service discovery document. List of Ontology sub-types.</dd>
+<dt><cite>/ontology/topics/</cite></dt>
+<dd>List of all Topic sub-types known by the system. Given search parameters,
+returns the list of Topics matching the search. This can be used as an
+auto-completion service for web forms.</dd>
+<dt><cite>/ontology/categories/</cite></dt>
+<dd>List of category hierarchies known by the system.</dd>
+<dt><cite>/collections/</cite></dt>
+<dd>API service discovery document. List of Collection types.</dd>
+</dl>
+<p>Operations we might want:</p>
+<ul class="simple">
+<li>Recent items of a particular Archetype.</li>
+<li>Single Item of a particular Archetype by GUID.</li>
+<li>Search for items matching a string or phrase.</li>
+<li>Search for items related to a specific Concept or group of Concepts.</li>
+</ul>
+<div class="section" id="searching-the-catalogue">
+<h2>Searching the Catalogue<a class="headerlink" href="#searching-the-catalogue" title="Permalink to this headline">¶</a></h2>
+<p>Most interactions with Demetrius begin with the Catalogue, the central point of
+content discovery.</p>
+<p>Filters applied automatically to all queries:</p>
+<ul class="simple">
+<li>pub_status: usable</li>
+<li>pub_date: &gt;= NOW (truncated to 1 min granularity)</li>
+<li>provider: permitted-only (filters out rights-restricted content based on
+permissions)</li>
+</ul>
+<p>Some clients will have permission to alter or remove these filters. Clients who
+attempt to alter or remove these filters without permission will receive a &#8220;400
+Bad Request&#8221; response.</p>
 </div>
 <div class="section" id="the-stacks-api">
 <h2>The Stacks API<a class="headerlink" href="#the-stacks-api" title="Permalink to this headline">¶</a></h2>
@@ -105,10 +144,7 @@ process.</p>
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">The REST API exported by Demetrius</a><ul>
-<li><a class="reference internal" href="#the-catalogue-api">The Catalogue API</a><ul>
-<li><a class="reference internal" href="#search-functions">Search Functions</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#searching-the-catalogue">Searching the Catalogue</a></li>
 <li><a class="reference internal" href="#the-stacks-api">The Stacks API</a></li>
 </ul>
 </li>
