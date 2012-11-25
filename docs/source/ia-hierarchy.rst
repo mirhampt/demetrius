@@ -32,6 +32,7 @@ Item (IPTC: anyItem)
       
         * PublishingStatus
         * PublishingOrganization
+        * ProcessingFlag
 
     * Topic 
 
