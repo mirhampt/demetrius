@@ -13,21 +13,40 @@ The REST API exported by Demetrius
     architecture, you must provide your own docs!
 
 
-Resources:
+API Service Discovery Resources:
 
 `/` 
-    API service discovery document. List of major sub-services in the API.
+    List of major sub-services in the API.
 
-`/content/` 
-    API service discovery document. List of available Archetypes, supported
-    serialization formats, and valid query parameters for general search. This
-    is the bulk of the common API functions. See under :ref:`Searching the
-    Catalogue`.
+`/collections/`
+    List of Collection types. Collections are explicit concepts for bundling
+    content together.
 
 `/concepts/` 
-    API service discovery document. The `/concepts/` namespace is used mostly
+    The `/concepts/` namespace is used mostly
     for administrative concepts used by the publishing tools. For concepts
     relating to content subjects, see under `/ontology/`.
+
+`/content/` 
+    List of available Archetypes, supported
+    serialization formats, and valid query parameters for general search. This
+    is the bulk of the common API functions. See under :ref:`Searching the
+    Content Catalogue`.
+
+`/ontology/` 
+    List of Ontology sub-types.
+
+
+Operations we might want:
+
+* Recent items of a particular Archetype.
+* Single Item of a particular Archetype by GUID.
+* Search for items matching a string or phrase.
+* Search for items related to a specific Concept or group of Concepts.
+
+
+Administrative Concepts
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 `/concepts/publishing_status/`
     List of all valid publishing statuses.
@@ -38,8 +57,9 @@ Resources:
 `/concepts/processing_flags/`
     List of processing flags understood by Demetrius.
 
-`/ontology/` 
-    API service discovery document. List of Ontology sub-types.
+
+Content Relationships and Metadata (Ontology)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 `/ontology/topics/`
     List of all Topic sub-types known by the system. Given search parameters,
@@ -49,19 +69,8 @@ Resources:
 `/ontology/categories/`
     List of category hierarchies known by the system.
 
-`/collections/`
-    API service discovery document. List of Collection types.
-    
 
-Operations we might want:
-
-* Recent items of a particular Archetype.
-* Single Item of a particular Archetype by GUID.
-* Search for items matching a string or phrase.
-* Search for items related to a specific Concept or group of Concepts.
-
-
-Searching the Catalogue
+Searching the Content Catalogue
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Most interactions with Demetrius begin with the Catalogue, the central point of
 content discovery.
